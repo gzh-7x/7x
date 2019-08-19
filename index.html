@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="Game()">
+<img src="NPC2.png" alt="" id="imgs">
+<canvas id="cvs" width="500" height="500" style="border: 1px solid black;"></canvas>
+<script>
+    var cvs = document.getElementById('cvs');
+    var ctx = cvs.getContext('2d');
+    var gGame = null;
+    function Game() {
+        gGame = new Create();
+        gGame.loop()
+    }
+    function Create() {
+        var _this = this;
+        this.img = new Image();
+        this.temp =0;
+        this.img.src = "NPC2.png";
+        /*this.flag1 = true;//右
+        this.flag2 = true;//下*/
+        this.X = 30;
+        this.Y = 30;
+        this.draw = function () {
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            ctx.beginPath();
+            ctx.drawImage(_this.img,0,0,_this.img.width/4,_this.img.height/4,30,30,_this.img.width/4,_this.img.height/4)
+        };
+        this.update = function () {
+            _this.temp += 1;
+            if (_this.temp >= 4){
+                _this.temp = 0;
+            }if (_this.X <= 0 ){
+                _this.X = 0;
+            }
+            if (_this.X >= 460){
+                _this.X = 460;
+            }
+            if (_this.Y <= 0){
+                _this.Y = 0;
+            }
+            if (_this.Y >= 435){
+                _this.Y = 435;
+            }
+            document.onkeydown = function (e) {
+                switch (e.keyCode) {
+                    case 37:
+                        _this.X -= 1;
+                        ctx.clearRect(0,0,cvs.width,cvs.height);
+                        ctx.beginPath();
+                        ctx.drawImage(_this.img,_this.temp*_this.img.width/4,_this.img.height/4,_this.img.width/4,_this.img.height/4,_this.X,_this.Y,_this.img.width/4,_this.img.height/4);//左
+                        break;
+                    case 38:
+                        _this.Y -= 1;
+                        ctx.clearRect(0,0,cvs.width,cvs.height);
+                        ctx.beginPath();
+                        ctx.drawImage(_this.img,_this.temp*_this.img.width/4,_this.img.height*3/4,_this.img.width/4,_this.img.height/4,_this.X,_this.Y,_this.img.width/4,_this.img.height/4);//上
+                        break;
+                    case 39:
+                        _this.X += 1;
+                        ctx.clearRect(0,0,cvs.width,cvs.height);
+                        ctx.beginPath();
+                        ctx.drawImage(_this.img,_this.temp*_this.img.width/4,_this.img.height*2/4,_this.img.width/4,_this.img.height/4,_this.X,_this.Y,_this.img.width/4,_this.img.height/4);//右
+                        break;
+                    case 40:
+                        _this.Y += 1;
+                        ctx.clearRect(0,0,cvs.width,cvs.height);
+                        ctx.beginPath();
+                        ctx.drawImage(_this.img,_this.temp*_this.img.width/4,0,_this.img.width/4,_this.img.height/4,_this.X,_this.Y,_this.img.width/4,_this.img.height/4);//下
+                        break;
+                }
+            };
+        };
+        _this.draw();
+        this.loop = function () {
+            _this.update();
+            setTimeout(_this.loop,200)
+        }
+    }
+</script>
+
+</body>
+</html>
